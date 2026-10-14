@@ -617,7 +617,7 @@ app.get('/', (req, res) => {
   if (room) {
     return res.redirect('/app');
   }
-  res.sendFile(path.join(__dirname, 'public', 'landing.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Workspace App
