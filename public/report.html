@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Report Abuse — QuickShare Pro</title>
+  <meta name="description" content="Report abusive or prohibited content on QuickShare Pro.">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/style.css">
+  <script>
+    if (location.protocol === 'file:') {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'css/style.css';
+      document.head.appendChild(link);
+    }
+  </script>
+</head>
+<body>
+  <header class="app-header">
+    <a href="/" class="header-left" aria-label="QuickShare Home">
+      <div class="brand-mark">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      </div>
+      <span class="brand-wordmark">QuickShare <span class="brand-badge">Pro</span></span>
+    </a>
+    <div class="header-right">
+      <a href="/" class="btn btn-secondary btn-sm">Home</a>
+    </div>
+  </header>
+
+  <main class="static-page-container">
+    <h1>Report Abuse</h1>
+    <p class="text-sm" style="color: var(--text-2);">
+      We strictly prohibit malware, illicit content, and unauthorized file dissemination. If you have identified an active room or link violating our terms, report it below for immediate review and purging.
+    </p>
+
+    <div class="feature-card" style="padding: 24px; gap: 16px;">
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <label class="text-xs" style="font-weight: 600;" for="reportRoomCode">Room Code (if known)</label>
+        <input type="text" id="reportRoomCode" placeholder="e.g. K9W48Z" class="composer-textarea" style="border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 10px; width: 100%; text-transform: uppercase;">
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <label class="text-xs" style="font-weight: 600;" for="reportReason">Reason for Report</label>
+        <select id="reportReason" class="composer-textarea" style="border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 10px; width: 100%; background: var(--surface);">
+          <option value="malware">Malware / Executable Script Distribution</option>
+          <option value="copyright">Copyright Infringement</option>
+          <option value="harassment">Harassment / Abusive Material</option>
+          <option value="other">Other Violation</option>
+        </select>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <label class="text-xs" style="font-weight: 600;" for="reportDetails">Additional Details</label>
+        <textarea id="reportDetails" rows="4" placeholder="Describe the violation..." class="composer-textarea" style="border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 10px; width: 100%;"></textarea>
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 8px;">
+        <button class="btn btn-primary" id="submitReportBtn">Submit Abuse Report</button>
+        <a id="emailAbuseLink" href="mailto:abuse@quickshare.local" style="font-size: 13px; color: var(--accent);">Direct Email: abuse@quickshare.local</a>
+      </div>
+
+      <div id="reportFeedback" class="text-xs" style="margin-top: 8px; font-weight: 500;"></div>
+    </div>
+  </main>
+
+  <footer class="landing-footer">
+    <div>&copy; 2026 QuickShare Pro. Built by Snehal.</div>
+    <div class="footer-links">
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="/report">Report Abuse</a>
+    </div>
+  </footer>
+
+  <script src="/js/report.js"></script>
+</body>
+</html>

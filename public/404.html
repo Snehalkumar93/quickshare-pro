@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>404 — Page Not Found | QuickShare Pro</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/style.css">
+  <script>
+    if (location.protocol === 'file:') {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'css/style.css';
+      document.head.appendChild(link);
+    }
+  </script>
+</head>
+<body style="display: flex; align-items: center; justify-content: center; min-height: 100dvh; padding: 24px;">
+  <div class="empty-state" style="max-width: 440px;">
+    <svg class="empty-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="m15 9-6 6"/><path d="m9 9 6 6"/>
+    </svg>
+    <span class="text-xs" style="color: var(--accent); font-family: monospace; font-weight: 600;">ERROR 404</span>
+    <h1 class="text-xl">Room or page not found</h1>
+    <p class="empty-desc">
+      This room may have expired, been deleted by the host, or the link might be mistyped.
+    </p>
+    <a href="/" class="btn btn-primary" style="margin-top: 12px;">Return to QuickShare Home</a>
+  </div>
+</body>
+</html>

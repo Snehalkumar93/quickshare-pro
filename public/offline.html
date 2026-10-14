@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline — QuickShare Pro</title>
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/style.css">
+  <script>
+    if (location.protocol === 'file:') {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'css/style.css';
+      document.head.appendChild(link);
+    }
+  </script>
+</head>
+<body style="display: flex; align-items: center; justify-content: center; min-height: 100dvh; padding: 24px;">
+  <div class="empty-state" style="max-width: 420px;">
+    <svg class="empty-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+      <path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0 1 19 12.55M5 12.55a10.94 10.94 0 0 1 5.17-2.39M10.71 5.05A16 16 0 0 1 22.58 9M1.42 9a15.91 15.91 0 0 1 4.7-2.88M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/>
+    </svg>
+    <h1 class="text-xl">You are offline</h1>
+    <p class="empty-desc">
+      QuickShare requires an active network connection to transfer items between devices. Reconnect to your Wi-Fi network and try again.
+    </p>
+    <button class="btn btn-primary" onclick="window.location.reload()" style="margin-top: 12px;">Retry Connection</button>
+  </div>
+</body>
+</html>

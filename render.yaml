@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: quickshare-pro
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: SECRET
+        sync: false
+      - key: MONGO_URI
+        sync: false
+      - key: CLOUDINARY_URL
+        sync: false
+      - key: PUBLIC_URL
+        sync: false
+      - key: REPORT_EMAIL
+        sync: false
+      - key: MAX_MB
+        sync: false
+      - key: ROOM_TTL_HOURS
+        sync: false

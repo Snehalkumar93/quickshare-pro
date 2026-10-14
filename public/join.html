@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Join Room — QuickShare Pro</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#5b5bf0" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b0b12" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/style.css">
+  <script>
+    if (location.protocol === 'file:') {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'css/style.css';
+      document.head.appendChild(link);
+    }
+  </script>
+</head>
+<body style="display: flex; align-items: center; justify-content: center; min-height: 100dvh; padding: 16px;">
+  <div class="modal-panel" style="max-width: 400px; transform: none; opacity: 1;">
+    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+      <div class="brand-mark">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      </div>
+      <span class="text-base" style="font-weight: 600;">QuickShare Pro</span>
+    </div>
+
+    <h1 class="text-lg">Join Room <span id="displayRoomCode" class="room-badge">------</span></h1>
+    <p class="text-xs" style="color: var(--text-2);">
+      Enter the 6-digit access PIN to connect your device to this private sharing session.
+    </p>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; margin: 12px 0;">
+      <input type="password" inputmode="numeric" id="joinPinInput" maxlength="6" placeholder="Enter 6-digit PIN" class="composer-textarea" style="border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px; text-align: center; font-size: 18px; letter-spacing: 0.2em; width: 100%; font-family: monospace;" autofocus>
+      <div id="joinError" class="text-xs" style="color: var(--danger); text-align: center; min-height: 18px;"></div>
+    </div>
+
+    <button class="btn btn-primary" id="submitJoinBtn" style="width: 100%;">
+      Connect to Room
+    </button>
+  </div>
+
+  <script src="/js/icons.js"></script>
+  <script src="/js/join.js"></script>
+</body>
+</html>

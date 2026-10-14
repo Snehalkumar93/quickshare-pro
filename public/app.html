@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>QuickShare Pro — Live Room</title>
+  <meta name="description" content="Private peer sharing workspace between phone and laptop.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#5b5bf0" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b0b12" media="(prefers-color-scheme: dark)">
+
+  <!-- Favicons & Manifest -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon-32.png" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+
+  <link rel="stylesheet" href="/css/style.css">
+  <script>
+    if (location.protocol === 'file:') {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'css/style.css';
+      document.head.appendChild(link);
+    }
+  </script>
+</head>
+<body>
+
+  <!-- Sticky 56px Header -->
+  <header class="app-header">
+    <div class="header-left">
+      <a href="/" class="header-left" aria-label="QuickShare Home">
+        <div class="brand-mark" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <span class="brand-wordmark">QuickShare</span>
+      </a>
+      <span class="room-badge" id="headerRoomBadge" title="Click to copy room code" role="button" tabindex="0">
+        <span id="roomCodeDisplay">------</span>
+      </span>
+    </div>
+
+    <div class="header-right">
+      <!-- Presence Pill -->
+      <div class="presence-pill" id="presencePill" title="Devices online in this room">
+        <span class="presence-indicator-dot">
+          <span class="presence-indicator-pulse"></span>
+        </span>
+        <span id="presenceCountText">1 device</span>
+      </div>
+
+      <!-- Download All (ZIP) Button -->
+      <button class="btn btn-secondary btn-sm" id="downloadZipBtn" title="Download all room files as ZIP" aria-label="Download all files as ZIP">
+        <span id="zipIconWrap"></span>
+        <span class="btn-text">Download all</span>
+      </button>
+
+      <!-- Connect Device (QR) Button -->
+      <button class="btn btn-secondary btn-sm" id="openPairBtn" title="Connect Phone via QR" aria-label="Connect Phone via QR">
+        <span id="qrIconWrap"></span>
+        <span class="btn-text">Connect device</span>
+      </button>
+
+      <!-- Theme Switcher -->
+      <button class="btn btn-ghost btn-icon" id="themeToggleBtn" title="Toggle Theme" aria-label="Toggle Theme">
+        <span id="themeIcon"></span>
+      </button>
+
+      <!-- End Session Button -->
+      <button class="btn btn-danger btn-sm" id="endSessionBtn" title="End session and delete room" aria-label="End session and delete room">
+        <span id="exitIconWrap"></span>
+        <span class="btn-text">End session</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Offline / Reconnecting Banner -->
+  <div class="offline-banner" id="offlineBanner" role="alert">
+    Connection lost. Reconnecting to room...
+  </div>
+
+  <!-- App Workspace Viewport -->
+  <main class="app-viewport">
+    <div class="app-main-layout">
+      
+      <!-- Feed Card Container -->
+      <section class="feed-card" aria-label="Room activity feed">
+        <div class="feed-scroll" id="feedScroll" aria-live="polite">
+          
+          <!-- Loading Skeletons -->
+          <div id="loadingSkeletons" style="display: none; flex-direction: column; gap: 12px; padding: 16px;">
+            <div class="skeleton" style="height: 64px; width: 60%; border-radius: 12px;"></div>
+            <div class="skeleton" style="height: 140px; width: 75%; border-radius: 12px; align-self: flex-end;"></div>
+            <div class="skeleton" style="height: 64px; width: 50%; border-radius: 12px;"></div>
+          </div>
+
+          <!-- Empty State -->
+          <div class="empty-state" id="emptyState" style="display: none;">
+            <svg class="empty-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/>
+              <path d="M12 12v9"/>
+              <path d="m16 16-4-4-4 4"/>
+            </svg>
+            <h2 class="empty-headline">No files shared yet</h2>
+            <p class="empty-desc">
+              Drop photos, videos, paste clipboard items, or send links to sync instantly across your connected devices.
+            </p>
+            <button class="btn btn-primary btn-sm" id="emptyConnectBtn" style="margin-top: 8px;">
+              Connect your phone
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Composer Bar -->
+      <footer class="composer-container">
+        
+        <!-- Determinate Per-File Progress Container -->
+        <div class="upload-progress-list" id="uploadProgressList" role="region" aria-label="Active file uploads"></div>
+
+        <div class="composer-box">
+          <input type="file" id="filePicker" multiple style="display: none;" aria-hidden="true">
+
+          <button class="btn btn-ghost btn-icon" id="attachBtn" type="button" title="Attach files or media" aria-label="Attach files or media">
+            <span id="attachIconWrap"></span>
+          </button>
+
+          <textarea 
+            id="messageInput" 
+            class="composer-textarea" 
+            rows="1" 
+            placeholder="Type a message, paste a link, or drop files..."
+            aria-label="Message content or URL"
+          ></textarea>
+
+          <button class="btn btn-primary btn-icon" id="sendBtn" type="button" title="Send message" aria-label="Send message" disabled>
+            <span id="sendIconWrap"></span>
+          </button>
+        </div>
+
+        <span class="drop-hint">Tip: Drop files anywhere on this window to share immediately.</span>
+      </footer>
+
+    </div>
+  </main>
+
+  <!-- Full-Screen Drag Overlay -->
+  <div class="drag-overlay" id="dragOverlay" aria-hidden="true">
+    <div class="drag-panel">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/>
+      </svg>
+      <span class="text-lg">Drop files to share</span>
+      <span class="text-xs" style="color: var(--text-2);">Syncs directly to all connected devices in this room</span>
+    </div>
+  </div>
+
+  <!-- QR Pairing Dialog Modal -->
+  <div class="modal-backdrop" id="pairingModal" role="dialog" aria-modal="true" aria-labelledby="pairModalTitle">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <h2 class="modal-title" id="pairModalTitle">Connect Device</h2>
+        <button class="btn btn-ghost btn-icon" id="closePairingBtn" aria-label="Close dialog">✕</button>
+      </div>
+
+      <div class="qr-dialog-body">
+        <div class="qr-image-frame">
+          <img id="qrCodeImg" alt="QR code to connect phone to this room">
+        </div>
+
+        <div class="pin-display-group">
+          <span>Room Code:</span>
+          <span class="room-badge" id="dialogRoomCodeDisplay">------</span>
+          <span style="margin-left: 8px;">PIN:</span>
+          <span class="pin-badge-lg" id="dialogPinDisplay">------</span>
+        </div>
+
+        <p class="text-xs" style="color: var(--text-2); text-align: center;">
+          Scan with your phone's camera to join this private room instantly without typing the PIN.
+        </p>
+
+        <div class="link-copy-box">
+          <span class="link-copy-text" id="dialogUrlText"></span>
+          <button class="btn btn-secondary btn-sm" id="copyPairLinkBtn" style="flex-shrink: 0;">
+            Copy Link
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full-Screen Lightbox Modal -->
+  <div class="lightbox-backdrop" id="lightboxModal" role="dialog" aria-modal="true" aria-label="Image preview">
+    <div class="lightbox-topbar">
+      <a class="btn btn-secondary btn-sm" id="downloadLightboxBtn" download title="Download photo" aria-label="Download photo">
+        <span id="lbDownloadIconWrap"></span> Download
+      </a>
+      <button class="btn btn-ghost btn-icon" id="closeLightboxBtn" title="Close preview" aria-label="Close preview">
+        ✕
+      </button>
+    </div>
+    <div class="lightbox-image-container">
+      <img id="lightboxImg" class="lightbox-img-full" alt="Enlarged photo preview">
+    </div>
+  </div>
+
+  <!-- End Session Confirmation Modal -->
+  <div class="modal-backdrop" id="endSessionModal" role="dialog" aria-modal="true" aria-labelledby="endModalTitle">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <h2 class="modal-title" id="endModalTitle">End Session &amp; Delete Room</h2>
+        <button class="btn btn-ghost btn-icon" id="closeEndModalBtn" aria-label="Close dialog">✕</button>
+      </div>
+
+      <p class="text-sm" style="color: var(--text-2);">
+        Are you sure you want to end this session? All files, media, and message logs in this room will be permanently destroyed for all devices.
+      </p>
+
+      <div style="display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: 8px;">
+        <button class="btn btn-secondary" id="cancelEndSessionBtn">Cancel</button>
+        <button class="btn btn-danger" id="confirmEndSessionBtn" style="background: var(--danger); color: #fff;">
+          End Session Now
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Region -->
+  <div class="toast-region" id="toastRegion" aria-live="polite"></div>
+
+  <!-- Scripts strictly compliant with CSP (no inline scripts) -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/icons.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

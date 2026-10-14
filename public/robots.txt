@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Allow: /privacy
+Allow: /terms
+Allow: /report
+Disallow: /app
+Disallow: /join/
+Disallow: /api/
+
+Sitemap: /sitemap.xml
