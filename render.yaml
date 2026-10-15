@@ -11,7 +11,7 @@ services:
       - key: PORT
         value: 3000
       - key: SECRET
-        sync: false
+        generateValue: true
       - key: MONGO_URI
         sync: false
       - key: CLOUDINARY_URL

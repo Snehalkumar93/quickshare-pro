@@ -17,12 +17,11 @@ require('dotenv').config();
 const PORT = process.env.PORT || 3000;
 let SECRET = process.env.SECRET;
 
-if (process.env.NODE_ENV === 'production' && !SECRET) {
-  console.error('FATAL: SECRET environment variable is required in production.');
-  process.exit(1);
-}
 if (!SECRET) {
-  SECRET = 'dev_quickshare_secret_' + crypto.randomBytes(16).toString('hex');
+  SECRET = 'qs_' + crypto.randomBytes(32).toString('hex');
+  if (process.env.NODE_ENV === 'production') {
+    console.warn('⚠️  SECRET environment variable not provided. Auto-generated an ephemeral secret for this session. Set SECRET in your cloud dashboard to persist sessions across redeploys.');
+  }
 }
 
 const REPORT_EMAIL = process.env.REPORT_EMAIL || 'abuse@quickshare.local';
@@ -684,7 +683,10 @@ function purgeExpiredRooms() {
   saveDatabase(db);
 }
 
-setInterval(purgeExpiredRooms, 10 * 60 * 1000);
+const cleanupTimer = setInterval(purgeExpiredRooms, 10 * 60 * 1000);
+if (cleanupTimer && cleanupTimer.unref) {
+  cleanupTimer.unref();
+}
 
 // ==========================================================================
 // Socket.io Room Scoping & Presence
