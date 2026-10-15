@@ -14,14 +14,22 @@ const archiver = require('archiver');
 require('dotenv').config();
 
 // Secrets & Environment Verification
-const PORT = process.env.PORT || 3000;
+const PORT = parseInt(process.env.PORT || '10000', 10);
 let SECRET = process.env.SECRET;
 
+if (process.env.NODE_ENV === 'production' && !SECRET) {
+  console.error('FATAL: SECRET environment variable is required in production.');
+  process.exit(1);
+}
 if (!SECRET) {
-  SECRET = 'qs_' + crypto.randomBytes(32).toString('hex');
-  if (process.env.NODE_ENV === 'production') {
-    console.warn('⚠️  SECRET environment variable not provided. Auto-generated an ephemeral secret for this session. Set SECRET in your cloud dashboard to persist sessions across redeploys.');
-  }
+  SECRET = 'qs_dev_secret_' + crypto.randomBytes(16).toString('hex');
+}
+
+const MONGO_URI = process.env.MONGO_URI;
+const CLOUDINARY_URL = process.env.CLOUDINARY_URL;
+
+if (!MONGO_URI || !CLOUDINARY_URL) {
+  console.warn('⚠️  WARNING: Running in local-disk mode (MONGO_URI and/or CLOUDINARY_URL not set). Uploaded files and room data will persist to local disk and will be lost on container restart or redeploy.');
 }
 
 const REPORT_EMAIL = process.env.REPORT_EMAIL || 'abuse@quickshare.local';
@@ -135,10 +143,38 @@ function getLocalIpAddresses() {
   return addresses.length > 0 ? addresses : ['127.0.0.1'];
 }
 
+// Dynamic Base URL Resolution for Universal Join Links
+function getBaseUrl(req) {
+  // 1. PUBLIC_URL env var takes top priority
+  if (process.env.PUBLIC_URL && process.env.PUBLIC_URL.trim()) {
+    return process.env.PUBLIC_URL.trim().replace(/\/+$/, '');
+  }
+
+  // 2. The request's own origin via trust proxy (honoring x-forwarded-proto & x-forwarded-host)
+  const host = req ? req.get('host') : null;
+  if (host && !host.startsWith('localhost') && !host.startsWith('127.0.0.1') && !host.startsWith('0.0.0.0')) {
+    const proto = req.protocol || 'http';
+    return `${proto}://${host}`;
+  }
+
+  // 3. Fallback: local LAN IP for pure local Wi-Fi development
+  const ips = getLocalIpAddresses();
+  const primaryIp = ips[0] || '127.0.0.1';
+  const proto = req && req.protocol ? req.protocol : 'http';
+  return `${proto}://${primaryIp}:${PORT}`;
+}
+
 // Setup App & Express Server
 const app = express();
+app.set('trust proxy', 1);
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: '*' } });
+const io = new Server(server, { 
+  cors: { 
+    origin: '*',
+    methods: ['GET', 'POST']
+  },
+  transports: ['websocket', 'polling']
+});
 
 // Privacy-Preserving Structured Request Logging
 app.use((req, res, next) => {
@@ -335,6 +371,7 @@ app.post('/api/rooms/:code/join', roomJoinLimiter, (req, res) => {
 // Current Room Session
 app.get('/api/rooms/current', requireAuthRoom, (req, res) => {
   const ips = getLocalIpAddresses();
+  const baseUrl = getBaseUrl(req);
   res.json({
     code: req.room.code,
     pin: req.room.pin,
@@ -342,7 +379,8 @@ app.get('/api/rooms/current', requireAuthRoom, (req, res) => {
     expiresAt: req.room.expiresAt,
     ttlHours: req.room.ttlHours,
     totalBytes: req.room.totalBytes || 0,
-    localIps: ips
+    localIps: ips,
+    joinUrl: `${baseUrl}/join/${req.room.code}?pin=${req.room.pin}`
   });
 });
 
@@ -371,14 +409,10 @@ app.post('/api/rooms/:code/end', requireAuthRoom, (req, res) => {
   res.json({ success: true, message: 'Room ended and files permanently destroyed.' });
 });
 
-// Pairing Details & QR
+// Pairing Details & QR Code Generation (Dynamic Base URL via getBaseUrl)
 app.get('/api/pairing', requireAuthRoom, async (req, res) => {
-  const ips = getLocalIpAddresses();
-  const host = req.get('host');
-  const primaryIp = ips[0] || '127.0.0.1';
-  const protocol = req.protocol || 'http';
-
-  const directUrl = `${protocol}://${primaryIp}:${PORT}/join/${req.room.code}?pin=${req.room.pin}`;
+  const baseUrl = getBaseUrl(req);
+  const directUrl = `${baseUrl}/join/${req.room.code}?pin=${req.room.pin}`;
 
   try {
     const qrDataUrl = await qrcode.toDataURL(directUrl, {
@@ -391,11 +425,24 @@ app.get('/api/pairing', requireAuthRoom, async (req, res) => {
       roomCode: req.room.code,
       pin: req.room.pin,
       directUrl,
+      joinUrl: directUrl,
       qrDataUrl
     });
   } catch (err) {
     res.status(500).json({ error: 'Failed to generate QR code' });
   }
+});
+
+// Direct Join Link Verification & Alias
+app.get('/api/join', requireAuthRoom, (req, res) => {
+  const baseUrl = getBaseUrl(req);
+  const directUrl = `${baseUrl}/join/${req.room.code}?pin=${req.room.pin}`;
+  res.json({
+    roomCode: req.room.code,
+    pin: req.room.pin,
+    directUrl,
+    joinUrl: directUrl
+  });
 });
 
 // Get Room Items
@@ -631,10 +678,32 @@ app.get('/app', (req, res) => {
 // Deep link QR Join
 app.get('/join/:code', (req, res) => {
   const code = (req.params.code || '').toUpperCase();
-  const room = getAuthRoom(req);
-  if (room && room.code === code) {
+  const room = db.rooms.find(r => r.code === code);
+
+  if (!room) {
+    return res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
+  }
+
+  // Already authenticated in this room
+  const authRoom = getAuthRoom(req);
+  if (authRoom && authRoom.code === code) {
     return res.redirect('/app');
   }
+
+  // Fast-track QR join: if valid PIN provided in query parameter, issue cookie and redirect to /app
+  const pinQuery = req.query.pin;
+  if (pinQuery && pinQuery === room.pin) {
+    const expiresAt = new Date(room.expiresAt).getTime();
+    const token = signToken(room.code, expiresAt);
+    res.cookie('quickshare_session', token, {
+      httpOnly: true,
+      secure: req.secure || req.protocol === 'https',
+      sameSite: 'lax',
+      maxAge: expiresAt - Date.now()
+    });
+    return res.redirect('/app');
+  }
+
   res.sendFile(path.join(__dirname, 'public', 'join.html'));
 });
 

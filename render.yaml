@@ -4,19 +4,20 @@ services:
     runtime: node
     plan: free
     buildCommand: npm install
-    startCommand: node server.js
+    startCommand: npm start
+    healthCheckPath: /healthz
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
-        value: 3000
+        value: 10000
       - key: SECRET
-        generateValue: true
+        sync: false
+      - key: PUBLIC_URL
+        sync: false
       - key: MONGO_URI
         sync: false
       - key: CLOUDINARY_URL
-        sync: false
-      - key: PUBLIC_URL
         sync: false
       - key: REPORT_EMAIL
         sync: false

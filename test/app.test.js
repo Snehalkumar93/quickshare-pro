@@ -135,4 +135,37 @@ test('QuickShare Pro V2 — Automated Test Suite', async (t) => {
     assert.ok(typeof res.body.uptime === 'number');
   });
 
+  await t.test('8. Fast-Track QR Auto-Join (GET /join/:code?pin=PIN redirects 302 to /app with session cookie)', async () => {
+    const res = await request(app)
+      .get(`/join/${roomA.code}?pin=${roomA.pin}`);
+
+    assert.strictEqual(res.status, 302);
+    assert.strictEqual(res.headers.location, '/app');
+    const cookies = res.headers['set-cookie'];
+    assert.ok(cookies, 'Should set session cookie on fast-track GET join');
+    assert.ok(cookies.some(c => c.includes('quickshare_session=')), 'Cookie should contain quickshare_session');
+  });
+
+  await t.test('9. Dynamic Base URL Priority & Pairing URL', async () => {
+    // Test with PUBLIC_URL env var
+    process.env.PUBLIC_URL = 'https://custom-tunnel.trycloudflare.com';
+    const resPairing = await request(app)
+      .get('/api/pairing')
+      .set('Cookie', cookieA);
+
+    assert.strictEqual(resPairing.status, 200);
+    assert.ok(resPairing.body.directUrl.startsWith('https://custom-tunnel.trycloudflare.com/join/'));
+    assert.strictEqual(resPairing.body.roomCode, roomA.code);
+    assert.strictEqual(resPairing.body.pin, roomA.pin);
+
+    // Test /api/join
+    const resJoinApi = await request(app)
+      .get('/api/join')
+      .set('Cookie', cookieA);
+    assert.strictEqual(resJoinApi.status, 200);
+    assert.strictEqual(resJoinApi.body.directUrl, resPairing.body.directUrl);
+
+    delete process.env.PUBLIC_URL;
+  });
+
 });

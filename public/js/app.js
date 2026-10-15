@@ -189,6 +189,7 @@
     if (socket || !currentRoom) return;
 
     socket = io({
+      transports: ['websocket', 'polling'],
       query: {
         roomId: currentRoom.code,
         deviceType: currentDeviceType,
@@ -678,7 +679,11 @@
       const data = await res.json();
 
       qrCodeImg.src = data.qrDataUrl;
-      dialogUrlText.textContent = data.directUrl;
+      if (dialogUrlText) dialogUrlText.textContent = data.directUrl;
+      const dialogUrlLink = document.getElementById('dialogUrlLink');
+      if (dialogUrlLink) {
+        dialogUrlLink.href = data.directUrl;
+      }
       copyPairLinkBtn.dataset.url = data.directUrl;
       pairingModal.classList.add('open');
     } catch (err) {
