@@ -33,29 +33,29 @@
 
 /* Design Tokens — Light Theme */
 :root {
-  --bg: #fafafa;
+  --bg: #f8fafc;
   --surface: #ffffff;
-  --surface-2: #f4f4f6;
-  --border: #e6e6ea;
-  --text: #0f1020;
-  --text-2: #52536b;
-  --text-3: #8a8ba3;
-  --accent: #5b5bf0;
-  --accent-hover: #4a4ad8;
-  --accent-soft: #eeeefe;
+  --surface-2: #f1f5f9;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --text-2: #475569;
+  --text-3: #94a3b8;
+  --accent: #6366f1;
+  --accent-hover: #4f46e5;
+  --accent-soft: #eef2ff;
   --on-accent: #ffffff;
-  --success: #16a34a;
-  --danger: #dc2626;
-  --warn: #d97706;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warn: #f59e0b;
   --radius-sm: 8px;
   --radius: 12px;
-  --radius-lg: 16px;
+  --radius-lg: 18px;
   --radius-full: 999px;
-  --shadow-1: 0 1px 2px rgba(15, 16, 32, 0.06);
-  --shadow-2: 0 4px 16px rgba(15, 16, 32, 0.08);
-  --shadow-3: 0 16px 48px rgba(15, 16, 32, 0.16);
-  --shadow-glow: 0 0 20px rgba(91, 91, 240, 0.15);
-  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --shadow-1: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-2: 0 4px 16px rgba(15, 23, 42, 0.08);
+  --shadow-3: 0 16px 48px rgba(15, 23, 42, 0.14);
+  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.18);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --bounce: cubic-bezier(0.68, -0.55, 0.27, 1.55);
   --space-1: 4px;
@@ -66,67 +66,67 @@
   --space-8: 32px;
   --space-12: 48px;
 
-  --gradient-accent: linear-gradient(135deg, #5b5bf0 0%, #8b5cf6 50%, #06b6d4 100%);
-  --gradient-accent-hover: linear-gradient(135deg, #4a4ad8 0%, #7c3aed 50%, #0891b2 100%);
-  --gradient-badge: linear-gradient(135deg, #5b5bf0, #8b5cf6, #06b6d4, #5b5bf0);
-  --header-bg: rgba(250, 250, 250, 0.82);
-  --overlay-bg: rgba(15, 16, 32, 0.45);
+  --gradient-accent: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+  --gradient-accent-hover: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #0891b2 100%);
+  --gradient-badge: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4, #6366f1);
+  --header-bg: rgba(248, 250, 252, 0.85);
+  --overlay-bg: rgba(15, 23, 42, 0.5);
 }
 
 /* Dark Mode Tokens */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0b0b12;
-    --surface: #13131d;
-    --surface-2: #1a1a27;
-    --border: #262636;
-    --text: #f2f2fa;
-    --text-2: #a4a5c0;
-    --text-3: #6f7090;
-    --accent: #7c7cff;
-    --accent-hover: #9090ff;
-    --accent-soft: #1f1f3d;
-    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
-    --shadow-2: 0 4px 16px rgba(0, 0, 0, 0.45);
-    --shadow-3: 0 16px 48px rgba(0, 0, 0, 0.6);
-    --shadow-glow: 0 0 20px rgba(124, 124, 255, 0.2);
-    --gradient-accent: linear-gradient(135deg, #7c7cff 0%, #a78bfa 50%, #22d3ee 100%);
-    --gradient-accent-hover: linear-gradient(135deg, #9090ff 0%, #c084fc 50%, #67e8f9 100%);
-    --gradient-badge: linear-gradient(135deg, #7c7cff, #a78bfa, #22d3ee, #7c7cff);
-    --header-bg: rgba(11, 11, 18, 0.82);
-    --overlay-bg: rgba(5, 5, 10, 0.65);
+    --bg: #090a11;
+    --surface: #12131f;
+    --surface-2: #191b29;
+    --border: #23263b;
+    --text: #f8fafc;
+    --text-2: #94a3b8;
+    --text-3: #64748b;
+    --accent: #6366f1;
+    --accent-hover: #818cf8;
+    --accent-soft: rgba(99, 102, 241, 0.14);
+    --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.5);
+    --shadow-2: 0 4px 20px rgba(0, 0, 0, 0.45);
+    --shadow-3: 0 16px 48px rgba(0, 0, 0, 0.65);
+    --shadow-glow: 0 0 24px rgba(99, 102, 241, 0.22);
+    --gradient-accent: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+    --gradient-accent-hover: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #0891b2 100%);
+    --gradient-badge: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4, #6366f1);
+    --header-bg: rgba(9, 10, 17, 0.85);
+    --overlay-bg: rgba(4, 5, 10, 0.72);
   }
 }
 
 /* Manual Theme Overrides */
 [data-theme="dark"] {
-  --bg: #0b0b12;
-  --surface: #13131d;
-  --surface-2: #1a1a27;
-  --border: #262636;
-  --text: #f2f2fa;
-  --text-2: #a4a5c0;
-  --text-3: #6f7090;
-  --accent: #7c7cff;
-  --accent-hover: #9090ff;
-  --accent-soft: #1f1f3d;
-  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-2: 0 4px 16px rgba(0, 0, 0, 0.45);
-  --shadow-3: 0 16px 48px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 20px rgba(124, 124, 255, 0.2);
-  --gradient-accent: linear-gradient(135deg, #7c7cff 0%, #a78bfa 50%, #22d3ee 100%);
-  --gradient-accent-hover: linear-gradient(135deg, #9090ff 0%, #c084fc 50%, #67e8f9 100%);
-  --gradient-badge: linear-gradient(135deg, #7c7cff, #a78bfa, #22d3ee, #7c7cff);
-  --header-bg: rgba(11, 11, 18, 0.82);
-  --overlay-bg: rgba(5, 5, 10, 0.65);
+  --bg: #090a11;
+  --surface: #12131f;
+  --surface-2: #191b29;
+  --border: #23263b;
+  --text: #f8fafc;
+  --text-2: #94a3b8;
+  --text-3: #64748b;
+  --accent: #6366f1;
+  --accent-hover: #818cf8;
+  --accent-soft: rgba(99, 102, 241, 0.14);
+  --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-2: 0 4px 20px rgba(0, 0, 0, 0.45);
+  --shadow-3: 0 16px 48px rgba(0, 0, 0, 0.65);
+  --shadow-glow: 0 0 24px rgba(99, 102, 241, 0.22);
+  --gradient-accent: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+  --gradient-accent-hover: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #0891b2 100%);
+  --gradient-badge: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4, #6366f1);
+  --header-bg: rgba(9, 10, 17, 0.85);
+  --overlay-bg: rgba(4, 5, 10, 0.72);
 }
 
 [data-theme="light"] {
-  --bg: #fafafa;
+  --bg: #f8fafc;
   --surface: #ffffff;
-  --surface-2: #f4f4f6;
-  --border: #e6e6ea;
-  --text: #0f1020;
+  --surface-2: #f1f5f9;
+  --border: #e2e8f0;
+  --text: #0f172a;
   --text-2: #52536b;
   --text-3: #8a8ba3;
   --accent: #5b5bf0;
@@ -196,8 +196,13 @@ button, input, textarea, select, a {
   color: inherit;
 }
 
-/* Accessible focus ring: 2px solid accent with 2px offset */
-button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, [tabindex="0"]:focus-visible {
+/* Accessible focus ring: 2px solid accent with 2px offset (excluding composer textarea which is enclosed by composer-box) */
+button:focus-visible, 
+a:focus-visible, 
+input:not(.composer-textarea):focus-visible, 
+textarea:not(.composer-textarea):focus-visible, 
+select:focus-visible, 
+[tabindex="0"]:focus-visible {
   outline: 2px solid var(--accent) !important;
   outline-offset: 2px !important;
 }
@@ -833,6 +838,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   justify-content: center;
   overflow: hidden;
   background: var(--bg);
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.07) 0%, transparent 65%),
+    radial-gradient(circle at 100% 100%, rgba(139, 92, 246, 0.04) 0%, transparent 50%);
 }
 
 .app-main-layout {
@@ -847,16 +855,32 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 .feed-card {
   flex: 1;
-  background: var(--surface);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-1);
+  border-radius: 20px;
+  box-shadow: 0 4px 24px -2px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.03);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   min-height: 0;
   animation: feedCardEnter 0.5s var(--ease) 0.2s both;
-  transition: box-shadow 0.3s var(--ease);
+  transition: box-shadow 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .feed-card {
+    background: rgba(18, 19, 31, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+}
+
+[data-theme="dark"] .feed-card {
+  background: rgba(18, 19, 31, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 @keyframes feedCardEnter {
@@ -930,8 +954,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 .bubble-box {
-  padding: 10px 14px;
-  border-radius: 16px;
+  padding: 10px 15px;
+  border-radius: 18px;
   word-break: break-word;
   position: relative;
   display: flex;
@@ -940,12 +964,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 .bubble-row.mine .bubble-box {
-  background: var(--gradient-accent);
-  background-size: 200% 200%;
-  animation: gradientShift 6s ease infinite;
-  color: var(--on-accent);
+  background: linear-gradient(135deg, #6366f1 0%, #7c3aed 100%);
+  color: #ffffff;
   border-bottom-right-radius: 4px;
-  box-shadow: 0 2px 10px rgba(91, 91, 240, 0.2);
+  box-shadow: 0 2px 12px rgba(99, 102, 241, 0.28);
 }
 
 .bubble-row.theirs .bubble-box {
@@ -953,6 +975,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   color: var(--text);
   border: 1px solid var(--border);
   border-bottom-left-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .bubble-meta {
@@ -1132,25 +1155,52 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   75% { transform: scale(1.1) rotate(5deg); }
 }
 
-/* Composer */
+/* ==========================================================================
+   Composer (Sleek Glass Dock, Circular Action Buttons, Seamless Textarea)
+   ========================================================================== */
+
 .composer-container {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: 8px;
   flex-shrink: 0;
+  padding-bottom: 2px;
 }
 
 .composer-box {
   display: flex;
-  align-items: flex-end;
-  gap: var(--space-2);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-1);
-  padding: var(--space-2) var(--space-3);
-  transition: border-color 250ms var(--ease), box-shadow 250ms var(--ease);
-  animation: composerSlideUp 0.4s var(--ease) 0.4s both;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 999px;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  padding: 6px 8px 6px 12px;
+  min-height: 52px;
+  transition: border-color 220ms var(--ease), box-shadow 220ms var(--ease), transform 220ms var(--ease);
+  animation: composerSlideUp 0.4s var(--ease) 0.3s both;
+  position: relative;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .composer-box {
+    background: rgba(18, 19, 31, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  }
+}
+
+[data-theme="dark"] .composer-box {
+  background: rgba(18, 19, 31, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.composer-box:focus-within {
+  border-color: rgba(99, 102, 241, 0.65) !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18), 0 10px 32px -4px rgba(15, 23, 42, 0.25) !important;
 }
 
 @keyframes composerSlideUp {
@@ -1164,35 +1214,127 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   }
 }
 
-.composer-box:focus-within {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(91, 91, 240, 0.12), var(--shadow-2);
+/* Attachment Button inside Composer */
+.composer-box #attachBtn {
+  width: 36px;
+  height: 36px;
+  min-height: 36px;
+  border-radius: 50%;
+  color: var(--text-3);
+  background: transparent;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: all 180ms var(--ease);
+  flex-shrink: 0;
+  cursor: pointer;
 }
 
+.composer-box #attachBtn:hover {
+  color: var(--text);
+  background: var(--surface-2);
+  transform: scale(1.06);
+}
+
+.composer-box #attachBtn:active {
+  transform: scale(0.94);
+}
+
+/* Textarea — pure seamless input, zero borders, zero focus rings */
 .composer-textarea {
   flex: 1;
   min-height: 24px;
-  max-height: 120px;
-  border: none;
-  outline: none;
-  background: transparent;
+  max-height: 140px;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
   color: var(--text);
   font-family: inherit;
-  font-size: 14px;
+  font-size: 14.5px;
+  font-weight: 450;
   line-height: 1.5;
   resize: none;
-  padding: 4px 0;
+  padding: 6px 4px;
+  margin: 0;
+}
+
+.composer-textarea:focus,
+.composer-textarea:focus-visible {
+  border: none !important;
+  outline: none !important;
+  outline-offset: 0 !important;
+  box-shadow: none !important;
 }
 
 .composer-textarea::placeholder {
   color: var(--text-3);
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+/* Send Button — Circular Action Micro-Dock */
+.composer-box #sendBtn {
+  width: 36px;
+  height: 36px;
+  min-height: 36px;
+  border-radius: 50% !important;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: none !important;
+  transition: all 220ms var(--spring);
+}
+
+/* Disabled State: Clean muted circle, zero muddy gradients */
+.composer-box #sendBtn:disabled {
+  background: rgba(148, 163, 184, 0.12) !important;
+  color: var(--text-3) !important;
+  opacity: 0.55 !important;
+  box-shadow: none !important;
+  cursor: default !important;
+  pointer-events: none;
+  transform: scale(0.96);
+}
+
+/* Enabled State: Vibrant Indigo Glow, Interactive Pop */
+.composer-box #sendBtn:not(:disabled) {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 60%, #06b6d4 100%) !important;
+  color: #ffffff !important;
+  opacity: 1 !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 10px rgba(99, 102, 241, 0.45) !important;
+  transform: scale(1);
+  animation: sendBtnPop 0.3s var(--spring) both;
+}
+
+@keyframes sendBtnPop {
+  0% { transform: scale(0.85); }
+  60% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+.composer-box #sendBtn:not(:disabled):hover {
+  transform: scale(1.08) !important;
+  box-shadow: 0 4px 18px rgba(99, 102, 241, 0.6) !important;
+}
+
+.composer-box #sendBtn:not(:disabled):active {
+  transform: scale(0.92) !important;
 }
 
 .drop-hint {
-  font-size: 12px;
+  font-size: 11.5px;
+  font-weight: 500;
   color: var(--text-3);
+  letter-spacing: 0.2px;
   text-align: center;
   display: none;
+  opacity: 0.75;
 }
 
 @media (min-width: 768px) {
